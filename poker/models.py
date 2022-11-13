@@ -50,8 +50,8 @@ class Card(models.Model):
         CROSS = 2
         SPADE = 3
 
-    card_denomination = models.IntegerField(choices=CardsDenomination)
-    card_suit = models.IntegerField(choices=CardSuit)
+    card_denomination = models.IntegerField(choices=CardsDenomination.choices)
+    card_suit = models.IntegerField(choices=CardSuit.choices)
 
 
 class Action(models.IntegerChoices):
@@ -61,18 +61,18 @@ class Action(models.IntegerChoices):
 
 class Order(models.Model):
     hand = models.ForeignKey(Hand, on_delete=models.CASCADE)
-    card1 = models.ForeignKey(Card, on_delete=models.CASCADE)
-    action = models.IntegerField(choices=Action)
+    card1 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="+")
+    action = models.IntegerField(choices=Action.choices)
     bet = models.IntegerField(blank=True, null=True)
 
 
 class PreFlop(Order):
-    card2 = models.ForeignKey(Card, on_delete=models.CASCADE)
+    card2 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="+")
 
 
 class Flop(Order):
-    card2 = models.ForeignKey(Card, on_delete=models.CASCADE)
-    card3 = models.ForeignKey(Card, on_delete=models.CASCADE)
+    card2 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="+")
+    card3 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="+")
 
 
 class Turn(Order):

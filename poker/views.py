@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from poker.models import GameSession
+from poker.serializers import GameSessionSerializer
+
+
+class GameSessionView(viewsets.ModelViewSet):
+    queryset = GameSession.objects.all()
+    serializer_class = GameSessionSerializer
